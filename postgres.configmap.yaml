@@ -7,6 +7,6 @@ metadata:
   labels:
     feature: "databases"
 data:
-  POSTGRES_HOST: "192.168.0.1"
+  POSTGRES_HOST: kube-service-postgres
   POSTGRES_PORT: "5432"
   POSTGRES_DB: "poll_db"
