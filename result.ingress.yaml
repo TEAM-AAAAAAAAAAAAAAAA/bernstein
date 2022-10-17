@@ -1,5 +1,5 @@
 # ./result.ingress.yaml
-apiVersion: v1
+apiVersion: apps/v1
 kind: Ingress
 metadata:
   namespace: default
