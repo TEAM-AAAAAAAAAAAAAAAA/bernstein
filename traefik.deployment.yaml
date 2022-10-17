@@ -1,0 +1,6 @@
+# ./traefik.deployment.yaml
+apiVersion: v1
+kind: Deployment
+metadata:
+  namespace: kube-public
+  name: kube-deploy-traefik

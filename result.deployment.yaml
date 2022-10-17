@@ -1,0 +1,53 @@
+# ./result.deployment.yaml
+apiVersion: v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: kube-deploy-result
+  labels:
+    services: "result"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      services: "result"
+  template:
+    metadata:
+      labels:
+        services: "result"
+    spec:
+      limits:
+      - max:
+        memory: 128M
+      containers:
+      - name: "t-dop-600-result-1"
+        image: "epitechcontent/t-dop-600-result:k8s"
+      ports:
+        - containerPort: 80
+      env:
+      - name: "POSTGRES_HOST"
+        valueFrom:
+          configMapKeyRef:
+            key: "POSTGRES_HOST"
+            name: "kube-config-postgres"
+      - name: "POSTGRES_PORT"
+        valueFrom:
+          configMapKeyRef:
+            key: "POSTGRES_PORT"
+            name: "kube-config-postgres"
+      - name: "POSTGRES_DB"
+        valueFrom:
+          configMapKeyRef:
+            key: "POSTGRES_DB"
+            name: "kube-config-postgres"
+      - name: "POSTGRES_USER"
+        valueFrom:
+          secretKeyRef:
+            key: "POSTGRES_USER"
+            name: "kube-secret-postgres"
+      - name: "POSTGRES_PASSWORD"
+        valueFrom:
+          secretKeyRef:
+            key: "POSTGRES_PASSWORD"
+            name: "kube-secret-postgres"
+  restartPolicy: Always

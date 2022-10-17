@@ -1,0 +1,23 @@
+# ./redis.deployment.yaml
+apiVersion: v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: kube-deploy-redis
+  labels:
+    feature: "databases"
+spec:
+  selector:
+    matchLabels:
+      feature: "databases"
+  template:
+    metadata:
+      labels:
+        feature: "databases"
+    spec:
+      containers:
+      - name: "redis"
+        image: "redis:5.0"
+        ports:
+          - containerPort: 6379
+  restartPolicy: Always

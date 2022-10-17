@@ -1,0 +1,6 @@
+# ./traefik.service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: default
+  name: kube-service-traefik

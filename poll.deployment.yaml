@@ -1,0 +1,44 @@
+---
+apiVersion: "v1"
+kind: "ConfigMap"
+metadata:
+  name: "kube-config-poll"
+  namespace: "default"
+  labels:
+    services: "poll"
+data:
+  REDIS_HOST: "192.168.0.1"
+---
+apiVersion: v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: kube-deploy-poll
+labels:
+    services: "poll"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      services: "poll"
+  template:
+    metadata:
+      labels:
+        services: "poll"
+    spec:
+      containers:
+      - name: "t-dop-600-poll-1"
+        image: "epitechcontent/t-dop-600-poll:k8s"
+        resources:
+          limits:
+          - max:
+            memory: 128M
+        env:
+        - name: "REDIS_HOST"
+          valueFrom:
+            configMapKeyRef:
+              key: "REDIS_HOST"
+              name: "kube-config-poll"
+        ports:
+          - containerPort: 80
+  restartPolicy: Always

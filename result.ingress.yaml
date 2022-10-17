@@ -1,0 +1,6 @@
+# ./result.ingress.yaml
+apiVersion: v1
+kind: Ingress
+metadata:
+  namespace: default
+  name: kube-ingress-result

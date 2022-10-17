@@ -1,0 +1,15 @@
+# ./result.service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: default
+  name: kube-service-result
+  labels:
+    services: "result"
+spec:
+  selector:
+    services: "result"
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

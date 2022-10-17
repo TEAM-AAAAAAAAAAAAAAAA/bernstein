@@ -1,0 +1,15 @@
+# ./postgres.service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: default
+  name: kube-service-postgres
+  labels:
+    databases: "postgresql"
+spec:
+  selector:
+    databases: "postgresql"
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432

@@ -1,0 +1,44 @@
+cadvisor.daemonset:
+  - kube-daemon-cadvisor
+poll.deployment:
+  - kube-config-poll
+  - kube-deploy-poll
+poll.configmap:
+  - kube-config-poll
+poll.ingress:
+  - kube-ingress-poll
+poll.service:
+  - kube-service-poll
+postgres.configmap:
+  - kube-config-postgres
+postgres.deployment:
+  - kube-deploy-postgres
+  - kube-persistvol-postgres
+  - kube-persistvolclaim-postgres
+postgres.secret:
+  - kube-secret-postgres
+postgres.service:
+  - kube-service-postgres
+postgres.volume:
+  - kube-volume-postgres
+redis.configmap:
+  - kube-config-redis
+redis.deployment:
+  - kube-deploy-redis
+redis.service:
+  - kube-service-redis
+result.deployment:
+  - kube-deploy-result
+result.ingress:
+  - kube-ingress-result
+result.service:
+  - kube-service-result
+traefik.deployment:
+  - kube-deploy-traefik
+traefik.rbac:
+  - kube-rbac-binding-traefik
+  - kube-rbac-traefik
+traefik.service:
+  - kube-service-traefik
+worker.deployment:
+  - kube-deploy-worker

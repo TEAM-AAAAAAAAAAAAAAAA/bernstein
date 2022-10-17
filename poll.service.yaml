@@ -1,0 +1,15 @@
+# ./poll.service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: default
+  name: kube-service-poll
+  labels:
+    services: "poll"
+spec:
+  selector:
+    services: "poll"
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

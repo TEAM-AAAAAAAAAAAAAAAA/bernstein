@@ -1,0 +1,6 @@
+# ./postgres.volume.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  namespace: default
+  name: kube-volume-postgres

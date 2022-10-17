@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: kube-persistvol-postgres
+  labels:
+    databases: "postgresql"
+spec:
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  hostPath:
+    path: /var/lib/postgresql/data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kube-persistvolclaim-postgres
+  labels:
+    databases: "postgresql"
+spec:
+  volumeMode: Filesystem
+  storageClassName: ""
+  accessModes:
+    - ReadWriteOnce
+---
+apiVersion: v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: kube-deploy-postgres
+  labels:
+    feature: "databases"
+specs:
+  selector:
+    matchLabels:
+      feature: "databases"
+  template:
+    metadata:
+      labels:
+        feature: "databases"
+    spec:
+      volumes:
+      - name: postgresql_volume
+        hostPath:
+          path: /var/lib/postgresql/data
+      containers:
+      - name: "postgres-1"
+        image: "postgres:12"
+        env:
+        - name: "POSTGRES_HOST"
+          valueFrom:
+            configMapKeyRef:
+              key: "POSTGRES_HOST"
+              name: "kube-config-postgres"
+        - name: "POSTGRES_PORT"
+          valueFrom:
+            configMapKeyRef:
+              key: "POSTGRES_PORT"
+              name: "kube-config-postgres"
+        - name: "POSTGRES_DB"
+          valueFrom:
+            configMapKeyRef:
+              key: "POSTGRES_DB"
+              name: "kube-config-postgres"
+        - name: "POSTGRES_USER"
+          valueFrom:
+            secretKeyRef:
+              key: "POSTGRES_USER"
+              name: "kube-secret-postgres"
+        - name: "POSTGRES_PASSWORD"
+          valueFrom:
+            secretKeyRef:
+              key: "POSTGRES_PASSWORD"
+              name: "kube-secret-postgres"
+      ports:
+        - containerPort: 5432
+  restartPolicy: Always

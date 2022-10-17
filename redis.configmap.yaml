@@ -1,0 +1,6 @@
+# ./redis.configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: default
+  name: kube-config-redis

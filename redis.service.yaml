@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: default
+  name: kube-service-redis
+  labels:
+    databases: "redis"
+spec:
+  selector:
+    databases: "redis"
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
