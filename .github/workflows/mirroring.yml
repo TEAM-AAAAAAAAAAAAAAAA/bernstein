@@ -3,6 +3,7 @@ name: Mirroring
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   mirroring:
