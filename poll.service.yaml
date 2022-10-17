@@ -1,5 +1,5 @@
 # ./poll.service.yaml
-apiVersion: v1
+apiVersion: apps/v1
 kind: Service
 metadata:
   namespace: default

@@ -10,7 +10,7 @@
 
 # https://github.com/google/cadvisor/blob/master/deploy/kubernetes/base/daemonset.yaml
 
-apiVersion: v1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   namespace: kube-system
