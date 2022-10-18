@@ -54,7 +54,7 @@ jobs:
           echo "| ressource | value |" >> $GITHUB_STEP_SUMMARY
           for i in ${{fromJson(steps.set_var.outputs.packageJson).resources}}
           do
-            echo "resource"
+            echo "resource" >> $GITHUB_STEP_SUMMARY
           done
           echo "| summary | value |" >> $GITHUB_STEP_SUMMARY
           echo "|---------|-------|" >> $GITHUB_STEP_SUMMARY
