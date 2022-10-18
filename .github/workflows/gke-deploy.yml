@@ -51,9 +51,12 @@ jobs:
           # end of optional handling for multi line json
           echo "::set-output name=packageJson::$content"
       - run: |
-          cat kubeconform_result.json
-          echo "${{fromJson(steps.set_var.outputs.packageJson).summary.valid}}"
-          echo "${{fromJson(steps.set_var.outputs.packageJson).summary.valid}}" >> $GITHUB_STEP_SUMMARY
+          echo "| summary | value |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| valid   | ${{fromJson(steps.set_var.outputs.packageJson).summary.valid}}     |" >> $GITHUB_STEP_SUMMARY
+          echo "| invalid | ${{fromJson(steps.set_var.outputs.packageJson).summary.invalid}}     |" >> $GITHUB_STEP_SUMMARY
+          echo "| errors  | ${{fromJson(steps.set_var.outputs.packageJson).summary.errors}}     |" >> $GITHUB_STEP_SUMMARY
+          echo "| skipped | ${{fromJson(steps.set_var.outputs.packageJson).summary.skipped}}     |" >> $GITHUB_STEP_SUMMARY
       # - name: Display kubeconform results
       #   continue-on-error: true
       #   run: |
