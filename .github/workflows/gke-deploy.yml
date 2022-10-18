@@ -44,7 +44,7 @@ jobs:
       - run: |
           echo "| filename | kind | name | version | status | msg |" >> $GITHUB_STEP_SUMMARY
           echo "|----------|----------|----------|----------|----------|----------|" >> $GITHUB_STEP_SUMMARY
-          jq '.resources' ./kubeconform_result.json | jq -r 'to_entries[] | "| \(.value.filename) | \(.value.kind) | \(.value.name) | \(.value.version) | \(.value.status) | \(.value.msg) |"' >> $GITHUB_STEP_SUMMARY
+          jq '.resources' ./kubeconform_result.json | jq 'sort_by(.filename)' | jq -r 'to_entries[] | "| \(.value.filename) | \(.value.kind) | \(.value.name) | \(.value.version) | \(.value.status) | \(.value.msg) |"' >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| summary | value |" >> $GITHUB_STEP_SUMMARY
           echo "|----------|----------|" >> $GITHUB_STEP_SUMMARY
