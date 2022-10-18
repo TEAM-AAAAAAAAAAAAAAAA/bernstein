@@ -73,6 +73,7 @@ jobs:
         cluster_name: ${{ env.GKE_CLUSTER }}
         location: ${{ env.GKE_ZONE }}
         credentials: ${{ secrets.GKE_SA_KEY }}
+        use_auth_provider: true
     - run: |-
         gcloud --quiet auth configure-docker
 
@@ -82,9 +83,9 @@ jobs:
       run: |
         gcloud container clusters list
 
-    - name: Display kubectl config
-      run: |
-        kubectl config view
+    #- name: Display kubectl config
+    #  run: |
+    #    kubectl config view
 
     #- name: Display project infos
     #  run: |
@@ -93,7 +94,7 @@ jobs:
     - name: Deploy using script
       working-directory: scripts
       run: |
-        gcloud container clusters get-credentials ${{ env.GKE_CLUSTER }} --region ${{ env.GKE_ZONE }}
+        # gcloud container clusters get-credentials ${{ env.GKE_CLUSTER }} --region ${{ env.GKE_ZONE }}
         bash bernstein-deploy.sh
 
     # Build the Docker image
