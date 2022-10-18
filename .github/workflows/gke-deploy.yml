@@ -27,13 +27,13 @@ jobs:
       - uses: docker://ghcr.io/yannh/kubeconform:master
         with:
           entrypoint: '/kubeconform'
-          args: "-ignore-filename-pattern */*.yml -summary -output json ."
+          args: "-ignore-filename-pattern */*.yml -summary -output json . > kubeconform_results.json"
       - name: Upload typing results
         if: always()
         uses: kibalabs/github-action-create-annotations@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          json-file-path: ./kubeconform_results.json
+          json-file-path: kubeconform_results.json
           check-name: kubeconform_report
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
