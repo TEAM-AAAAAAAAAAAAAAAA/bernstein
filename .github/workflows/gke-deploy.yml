@@ -35,11 +35,17 @@ jobs:
         continue-on-error: true
         run: |
           export PATH=${PATH}:$(go env GOPATH)/bin
-          kubeconform -schema-location default -ignore-filename-pattern .github/workflows/ -summary --verbose -output json . > kubeconform_result.json
+          kubeconform -schema-location default \
+            -ignore-filename-pattern .github/workflows/ \
+            -ignore-filename-pattern cluster-architecture.yml \
+            -ignore-filename-pattern kubeconform_result.json\
+            -summary --verbose -output json . > kubeconform_result.json
       - name: Display kubeconform results
         continue-on-error: true
-        run: cat kubeconform_result.json | jq
-
+        run: |
+          echo "```json" >> $GITHUB_STEP_SUMMARY
+          cat kubeconform_result.json >> $GITHUB_STEP_SUMMARY
+          echo "```" >> $GITHUB_STEP_SUMMARY
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
     needs: [ kubeconform ]
