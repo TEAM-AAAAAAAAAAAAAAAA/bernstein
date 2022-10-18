@@ -29,6 +29,7 @@ jobs:
           entrypoint: '/kubeconform'
           args: "-ignore-filename-pattern */*.yml -summary -output json . > kubeconform_results.json"
       - name: List directory
+        if: always()
         run: ls -lRa
       - name: Upload typing results
         if: always()
