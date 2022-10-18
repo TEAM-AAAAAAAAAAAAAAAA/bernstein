@@ -27,7 +27,7 @@ jobs:
       - uses: docker://ghcr.io/yannh/kubeconform:master
         with:
           entrypoint: '/kubeconform'
-          args: "-ignore-filename-pattern *.yml -summary -output json ."
+          args: "-ignore-filename-pattern .yml -summary -output json ."
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
     needs: [ kubeconform ]
