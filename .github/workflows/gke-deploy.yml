@@ -52,8 +52,8 @@ jobs:
           echo "::set-output name=packageJson::$content"
       - run: |
           cat kubeconform_result.json
-          echo "${{fromJson(steps.set_var.outputs.packageJson).summary}}"
-          echo "${{fromJson(steps.set_var.outputs.packageJson).summary}}" >> $GITHUB_STEP_SUMMARY
+          echo "${{fromJson(steps.set_var.outputs.packageJson).summary.valid}}"
+          echo "${{fromJson(steps.set_var.outputs.packageJson).summary.valid}}" >> $GITHUB_STEP_SUMMARY
       # - name: Display kubeconform results
       #   continue-on-error: true
       #   run: |
