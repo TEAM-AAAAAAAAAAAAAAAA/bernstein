@@ -24,12 +24,12 @@ spec:
       labels:
         feature: "monitoring"
     spec:
+      restartPolicy: Always
       containers:
       - name: "cadvisor"
         image: "cadvisor:latest"
         ports:
           - containerPort: 8080
-        restartPolicy: Always
 #        resources:
 #          requests:
 #            memory: 400Mi
