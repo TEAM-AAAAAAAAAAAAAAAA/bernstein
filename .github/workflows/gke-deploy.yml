@@ -28,14 +28,13 @@ jobs:
         with:
           entrypoint: '/kubeconform'
           args: "-summary -output json ."
-          fail-on-error: false
       - name: Upload typing results
+        if: always()
         uses: kibalabs/github-action-create-annotations@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           json-file-path: ./kubeconform_results.json
           check-name: kubeconform_report
-          fail-on-error: false
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
     needs: [ kubeconform ]
