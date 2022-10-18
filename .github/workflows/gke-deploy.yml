@@ -43,7 +43,7 @@ jobs:
             -summary --verbose -output json . > kubeconform_result.json
       - id: set_var
         run: |
-          content=`cat ./path/to/package.json`
+          content=`cat ./kubeconform_result.json`
           # the following lines are only required for multi line json
           content="${content//'%'/'%25'}"
           content="${content//$'\n'/'%0A'}"
