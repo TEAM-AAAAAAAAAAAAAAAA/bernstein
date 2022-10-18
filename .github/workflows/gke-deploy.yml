@@ -32,7 +32,9 @@ jobs:
       - name: Download kubeconform
         run: go install github.com/yannh/kubeconform/cmd/kubeconform@latest
       - name: Run kubeconform
-        run: kubeconform -schema-location default -ignore-filename-pattern .github/workflows/ -summary --verbose -output json . > kubeconform_result.json
+        run: |
+          export PATH=${PATH}:$(go env GOPATH)/bin
+          kubeconform -schema-location default -ignore-filename-pattern .github/workflows/ -summary --verbose -output json . > kubeconform_result.json
 
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
