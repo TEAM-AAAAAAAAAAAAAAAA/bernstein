@@ -1,5 +1,5 @@
 # ./postgres.configmap.yaml
-apiVersion: apps/v1
+apiVersion: v1
 kind: ConfigMap
 metadata:
   namespace: default
