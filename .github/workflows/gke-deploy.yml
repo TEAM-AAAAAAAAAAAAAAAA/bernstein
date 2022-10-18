@@ -41,16 +41,27 @@ jobs:
             -ignore-filename-pattern cluster-architecture.yml \
             -ignore-filename-pattern kubeconform_result.json\
             -summary --verbose -output json . > kubeconform_result.json
+      - id: set_var
+        run: |
+          content=`cat ./kubeconform_result.json`
+          # the following lines are only required for multi line json
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          # end of optional handling for multi line json
+          echo "::set-output name=packageJson::$content"
       - run: |
-            echo "```json" >> $GITHUB_STEP_SUMMARY
-            cat ./kubeconform_result.json >> $GITHUB_STEP_SUMMARY
-            echo "```" >> $GITHUB_STEP_SUMMARY
-          # echo "| summary | value |" >> $GITHUB_STEP_SUMMARY
-          # echo "|---------|-------|" >> $GITHUB_STEP_SUMMARY
-          # echo "| valid   | ${{fromJson(steps.set_var.outputs.packageJson).summary.valid}}     |" >> $GITHUB_STEP_SUMMARY
-          # echo "| invalid | ${{fromJson(steps.set_var.outputs.packageJson).summary.invalid}}     |" >> $GITHUB_STEP_SUMMARY
-          # echo "| errors  | ${{fromJson(steps.set_var.outputs.packageJson).summary.errors}}     |" >> $GITHUB_STEP_SUMMARY
-          # echo "| skipped | ${{fromJson(steps.set_var.outputs.packageJson).summary.skipped}}     |" >> $GITHUB_STEP_SUMMARY
+          echo "| ressource | value |" >> $GITHUB_STEP_SUMMARY
+          for i in ${{fromJson(steps.set_var.outputs.packageJson).resources}}
+          do
+            echo "resource"
+          done
+          echo "| summary | value |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| valid   | ${{fromJson(steps.set_var.outputs.packageJson).summary.valid}}     |" >> $GITHUB_STEP_SUMMARY
+          echo "| invalid | ${{fromJson(steps.set_var.outputs.packageJson).summary.invalid}}     |" >> $GITHUB_STEP_SUMMARY
+          echo "| errors  | ${{fromJson(steps.set_var.outputs.packageJson).summary.errors}}     |" >> $GITHUB_STEP_SUMMARY
+          echo "| skipped | ${{fromJson(steps.set_var.outputs.packageJson).summary.skipped}}     |" >> $GITHUB_STEP_SUMMARY
       # - name: Display kubeconform results
       #   continue-on-error: true
       #   run: |
