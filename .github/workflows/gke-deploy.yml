@@ -26,7 +26,7 @@ jobs:
       - uses: docker://ghcr.io/yannh/kubeconform:master
         with:
           entrypoint: '/kubeconform'
-          args: "-ignore-filename-pattern .github/workflows/ -summary -output json ."
+          args: "-schema-location default -ignore-filename-pattern .github/workflows/ -summary --verbose -output json ."
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
     needs: [ kubeconform ]
