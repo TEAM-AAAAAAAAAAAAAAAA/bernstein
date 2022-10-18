@@ -86,13 +86,15 @@ jobs:
       run: |
         kubectl config view
 
-    - name: Display project infos
-      run: |
-        gcloud compute project-info describe --project ${{ secrets.PROJECT_ID }}
+    #- name: Display project infos
+    #  run: |
+    #    gcloud compute project-info describe --project ${{ secrets.PROJECT_ID }}
 
     - name: Deploy using script
       working-directory: scripts
-      run: bash bernstein-deploy.sh
+      run: |
+        gcloud container clusters get-credentials ${{ env.GKE_CLUSTER }}
+        bash bernstein-deploy.sh
 
     # Build the Docker image
     #- name: Build
