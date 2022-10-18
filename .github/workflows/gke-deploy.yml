@@ -20,13 +20,20 @@ jobs:
   kubeconform:
     runs-on: ubuntu-latest
     steps:
-      - name: login to Github Packages
-        run: echo "${{ github.token }}" | docker login https://ghcr.io -u ${GITHUB_ACTOR} --password-stdin
-      - uses: actions/checkout@v2
-      - uses: docker://ghcr.io/yannh/kubeconform:master
-        with:
-          entrypoint: '/kubeconform'
-          args: "-schema-location default -ignore-filename-pattern .github/workflows/ -summary --verbose -output json ."
+      # - name: login to Github Packages
+      #   run: echo "${{ github.token }}" | docker login https://ghcr.io -u ${GITHUB_ACTOR} --password-stdin
+      # - uses: actions/checkout@v2
+      # - uses: docker://ghcr.io/yannh/kubeconform:master
+      #   with:
+      #     entrypoint: '/kubeconform'
+      #     args: "-schema-location default -ignore-filename-pattern .github/workflows/ -summary --verbose -output json ."
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+      - name: Download kubeconform
+        run: go install github.com/yannh/kubeconform/cmd/kubeconform@latest
+      - name: Run kubeconform
+        run: ./kubeconform -schema-location default -ignore-filename-pattern .github/workflows/ -summary --verbose -output json . > kubeconform_result.json
+
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
     needs: [ kubeconform ]
