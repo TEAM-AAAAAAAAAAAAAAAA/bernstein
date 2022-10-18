@@ -83,7 +83,12 @@ jobs:
         gcloud container clusters list
 
     - name: Display kubectl config
-      run: kubectl config view
+      run: |
+        kubectl config view
+
+    - name: Display project infos
+      run: |
+        gcloud compute project-info describe --project
 
     - name: Deploy using script
       working-directory: scripts
