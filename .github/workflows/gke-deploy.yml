@@ -43,7 +43,7 @@ jobs:
             -summary --verbose -output json . > kubeconform_result.json
       - run: |
           echo "| filename | kind | name | version | status | msg |" >> $GITHUB_STEP_SUMMARY
-          jq '.resources' ./kubeconform_result.json | jq -r 'to_entries[] | "| \(.value.filename)| \(.value.kind) | \(.value.name) | \(.value.version) | \(.value.status) | \(.value.msg) |"' >> $GITHUB_STEP_SUMMARY
+          jq '.resources' ./kubeconform_result.json | jq -r 'to_entries[] | "| \(.value.filename) | \(.value.kind) | \(.value.name) | \(.value.version) | \(.value.status) | \(.value.msg) |"' >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| summary | value" >> $GITHUB_STEP_SUMMARY
           jq '.summary' tmp.json | jq 'to_entries[] | "| \(.key) | \(.value) |"' >> $GITHUB_STEP_SUMMARY
