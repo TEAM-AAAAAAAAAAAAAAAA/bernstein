@@ -51,6 +51,7 @@ jobs:
           # end of optional handling for multi line json
           echo "::set-output name=packageJson::$content"
       - run: |
+          cat kubeconform_result.json
           echo "${{fromJson(steps.set_var.outputs.packageJson).summary}}"
           echo "${{fromJson(steps.set_var.outputs.packageJson).summary}}" >> $GITHUB_STEP_SUMMARY
       # - name: Display kubeconform results
