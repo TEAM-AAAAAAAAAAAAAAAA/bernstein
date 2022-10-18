@@ -41,7 +41,6 @@ jobs:
             -ignore-filename-pattern kubeconform_result.json\
             -summary --verbose -output json . > kubeconform_result.json
       - name: Display kubeconform results
-        continue-on-error: true
         run: |
           echo "```json" >> $GITHUB_STEP_SUMMARY
           cat kubeconform_result.json >> $GITHUB_STEP_SUMMARY
