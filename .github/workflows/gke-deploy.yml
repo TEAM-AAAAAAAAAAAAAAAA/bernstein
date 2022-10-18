@@ -84,7 +84,8 @@ jobs:
         gcloud container clusters list
 
     - name: Deploy using script
-      run: ./scripts/bernstein-deploy.sh
+      working-directory: scripts
+      run: bash bernstein-deploy.sh
 
     # Build the Docker image
     #- name: Build
