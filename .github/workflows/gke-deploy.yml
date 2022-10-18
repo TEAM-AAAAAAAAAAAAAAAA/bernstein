@@ -76,17 +76,14 @@ jobs:
     - run: |-
         gcloud --quiet auth configure-docker
 
-    - uses: google-github-actions/get-gke-credentials@v0.2.1
-      with:
-        cluster_name: ${{ env.GKE_CLUSTER }}
-        location: ${{ env.GKE_ZONE }}
-        credentials: ${{ secrets.GKE_SA_KEY }}
-
     # List container clusters (debug)
     - name: Get infos
       shell: bash
       run: |
         gcloud container clusters list
+
+    - name: Display kubectl config
+      run: kubectl config view
 
     - name: Deploy using script
       working-directory: scripts
