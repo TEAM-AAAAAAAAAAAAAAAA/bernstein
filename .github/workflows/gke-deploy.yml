@@ -7,6 +7,7 @@ on:
     branches:
       - main
       - actions/create-gke-deployment-action
+      - actions/create-action-summary
   workflow_dispatch:
 
 env:
@@ -40,12 +41,23 @@ jobs:
             -ignore-filename-pattern cluster-architecture.yml \
             -ignore-filename-pattern kubeconform_result.json\
             -summary --verbose -output json . > kubeconform_result.json
-      - name: Display kubeconform results
-        continue-on-error: true
+      - id: set_var
         run: |
-          echo "```json" >> $GITHUB_STEP_SUMMARY
-          cat kubeconform_result.json >> $GITHUB_STEP_SUMMARY
-          echo "```" >> $GITHUB_STEP_SUMMARY
+          content=`cat ./path/to/package.json`
+          # the following lines are only required for multi line json
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          # end of optional handling for multi line json
+          echo "::set-output name=packageJson::$content"
+      - run: |
+          echo "${{fromJson(steps.set_var.outputs.packageJson).summary}}" >> $GITHUB_STEP_SUMMARY
+      # - name: Display kubeconform results
+      #   continue-on-error: true
+      #   run: |
+      #     echo "```json" >> $GITHUB_STEP_SUMMARY
+      #     cat kubeconform_result.json >> $GITHUB_STEP_SUMMARY
+      #     echo "```" >> $GITHUB_STEP_SUMMARY
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
     needs: [ kubeconform ]
