@@ -83,6 +83,9 @@ jobs:
       run: |
         gcloud container clusters list
 
+    - name: Deploy using script
+      run: ${{ github.workflow }}/scripts/bernstein-delpoy.sh
+
     # Build the Docker image
     #- name: Build
     #  run: |-
