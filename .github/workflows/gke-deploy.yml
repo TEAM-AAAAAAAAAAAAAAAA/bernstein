@@ -51,17 +51,7 @@ jobs:
           # end of optional handling for multi line json
           echo "::set-output name=packageJson::$content"
       - run: |
-          echo "| ressource | value |" >> $GITHUB_STEP_SUMMARY
-          for i in ${{fromJson(steps.set_var.outputs.packageJson).resources}}
-          do
-            echo "resource" >> $GITHUB_STEP_SUMMARY
-          done
-          echo "| summary | value |" >> $GITHUB_STEP_SUMMARY
-          echo "|---------|-------|" >> $GITHUB_STEP_SUMMARY
-          echo "| valid   | ${{fromJson(steps.set_var.outputs.packageJson).summary.valid}}     |" >> $GITHUB_STEP_SUMMARY
-          echo "| invalid | ${{fromJson(steps.set_var.outputs.packageJson).summary.invalid}}     |" >> $GITHUB_STEP_SUMMARY
-          echo "| errors  | ${{fromJson(steps.set_var.outputs.packageJson).summary.errors}}     |" >> $GITHUB_STEP_SUMMARY
-          echo "| skipped | ${{fromJson(steps.set_var.outputs.packageJson).summary.skipped}}     |" >> $GITHUB_STEP_SUMMARY
+          ./kubeconform_result_summary.sh >> $GITHUB_STEP_SUMMARY
       # - name: Display kubeconform results
       #   continue-on-error: true
       #   run: |
