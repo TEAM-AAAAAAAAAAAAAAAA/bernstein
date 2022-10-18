@@ -51,7 +51,7 @@ jobs:
           # end of optional handling for multi line json
           echo "::set-output name=packageJson::$content"
       - run: |
-          jq -r 'to_entries[] | "* \(.key)", "  * \(.value[])"' tmp.json >> $GITHUB_STEP_SUMMARY
+          jq -r 'to_entries[] | "* \(.key)", "  * \(.value[])"' ./kubeconform_result.json >> $GITHUB_STEP_SUMMARY
       # echo "| ressource | value |" >> $GITHUB_STEP_SUMMARY
       # for i in ${{fromJson(steps.set_var.outputs.packageJson).resources}}
       # do
