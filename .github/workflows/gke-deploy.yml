@@ -95,6 +95,7 @@ jobs:
       working-directory: scripts
       run: |
         # gcloud container clusters get-credentials ${{ env.GKE_CLUSTER }} --region ${{ env.GKE_ZONE }}
+        gcloud auth application-default login
         kubectl config use-context ${{ env.GKE_CLUSTER }}
         bash bernstein-deploy.sh
 
