@@ -32,7 +32,7 @@ metadata:
   name: kube-deploy-postgres
   labels:
     feature: "databases"
-specs:
+spec:
   selector:
     matchLabels:
       feature: "databases"
