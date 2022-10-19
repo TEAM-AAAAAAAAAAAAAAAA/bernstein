@@ -15,6 +15,7 @@ spec:
       labels:
         services: "poll"
     spec:
+      restartPolicy: Always
       containers:
       - name: "t-dop-600-poll-1"
         image: "epitechcontent/t-dop-600-poll:k8s"
@@ -29,4 +30,3 @@ spec:
               name: "kube-config-poll"
         ports:
           - containerPort: 80
-  restartPolicy: Always
