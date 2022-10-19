@@ -52,4 +52,4 @@ spec:
           secretKeyRef:
             key: "POSTGRES_PASSWORD"
             name: "kube-secret-postgres"
-  restartPolicy: Always
+      restartPolicy: Always
