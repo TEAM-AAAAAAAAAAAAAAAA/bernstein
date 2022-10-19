@@ -16,6 +16,7 @@ spec:
       labels:
         services: "result"
     spec:
+      restartPolicy: Always
       containers:
       - name: "t-dop-600-result-1"
         image: "epitechcontent/t-dop-600-result:k8s"
@@ -50,4 +51,3 @@ spec:
           secretKeyRef:
             key: "POSTGRES_PASSWORD"
             name: "kube-secret-postgres"
-  restartPolicy: Always
