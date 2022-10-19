@@ -1,5 +1,7 @@
 # ./traefik.service.yaml
 
+# https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+
 #apiVersion: v1
 #kind: Pod
 #metadata:
@@ -36,3 +38,15 @@ metadata:
 specs:
   selector:
     app: traefik
+  type: NodePort
+  ports:
+  - name: http-proxy
+    protocol: TCP
+    port: 80
+    nodePort: 30021
+    targetPort: 80
+  - name: admin-dashboard
+    protocol: TCP
+    port: 8080
+    nodePort: 30042
+    targetPort: 8080
