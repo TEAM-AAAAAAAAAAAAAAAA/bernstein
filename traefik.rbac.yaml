@@ -24,6 +24,8 @@ kind: ClusterRole
 metadata:
   name: kube-rbac-traefik
   namespace: kube-public
+  labels:
+    rbac: "traefik"
 
 rules:
   - apiGroups:
