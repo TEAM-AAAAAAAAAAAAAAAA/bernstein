@@ -15,6 +15,7 @@ spec:
       labels:
         services: "worker"
     spec:
+      restartPolicy: Always
       containers:
       - name: "t-dop-600-worker-1"
         image: "epitechcontent/t-dop-600-worker:k8s"
@@ -27,29 +28,28 @@ spec:
             configMapKeyRef:
               key: "REDIS_HOST"
               name: "kube-config-poll"
-      - name: "POSTGRES_HOST"
-        valueFrom:
-          configMapKeyRef:
-            key: "POSTGRES_HOST"
-            name: "kube-config-postgres"
-      - name: "POSTGRES_PORT"
-        valueFrom:
-          configMapKeyRef:
-            key: "POSTGRES_PORT"
-            name: "kube-config-postgres"
-      - name: "POSTGRES_DB"
-        valueFrom:
-          configMapKeyRef:
-            key: "POSTGRES_DB"
-            name: "kube-config-postgres"
-      - name: "POSTGRES_USER"
-        valueFrom:
-          secretKeyRef:
-            key: "POSTGRES_USER"
-            name: "kube-secret-postgres"
-      - name: "POSTGRES_PASSWORD"
-        valueFrom:
-          secretKeyRef:
-            key: "POSTGRES_PASSWORD"
-            name: "kube-secret-postgres"
-      restartPolicy: Always
+        - name: "POSTGRES_HOST"
+          valueFrom:
+            configMapKeyRef:
+              key: "POSTGRES_HOST"
+              name: "kube-config-postgres"
+        - name: "POSTGRES_PORT"
+          valueFrom:
+            configMapKeyRef:
+              key: "POSTGRES_PORT"
+              name: "kube-config-postgres"
+        - name: "POSTGRES_DB"
+          valueFrom:
+            configMapKeyRef:
+              key: "POSTGRES_DB"
+              name: "kube-config-postgres"
+        - name: "POSTGRES_USER"
+          valueFrom:
+            secretKeyRef:
+              key: "POSTGRES_USER"
+              name: "kube-secret-postgres"
+        - name: "POSTGRES_PASSWORD"
+          valueFrom:
+            secretKeyRef:
+              key: "POSTGRES_PASSWORD"
+              name: "kube-secret-postgres"
