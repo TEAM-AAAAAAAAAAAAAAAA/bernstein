@@ -7,6 +7,7 @@ on:
     branches:
       - main
       - actions/create-gke-deployment-action
+      - actions/create-action-summary
   workflow_dispatch:
 
 env:
@@ -40,11 +41,14 @@ jobs:
             -ignore-filename-pattern cluster-architecture.yml \
             -ignore-filename-pattern kubeconform_result.json\
             -summary --verbose -output json . > kubeconform_result.json
-      - name: Display kubeconform results
-        run: |
-          echo "```json" >> $GITHUB_STEP_SUMMARY
-          cat kubeconform_result.json >> $GITHUB_STEP_SUMMARY
-          echo "```" >> $GITHUB_STEP_SUMMARY
+      - run: |
+          echo "| filename | kind | name | version | status | msg |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|----------|----------|----------|----------|----------|" >> $GITHUB_STEP_SUMMARY
+          jq '.resources' ./kubeconform_result.json | jq 'sort_by(.filename)' | jq -r 'to_entries[] | "| \(.value.filename) | \(.value.kind) | \(.value.name) | \(.value.version) | \(.value.status) | \(.value.msg) |"' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| summary | value |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|----------|" >> $GITHUB_STEP_SUMMARY
+          jq '.summary' ./kubeconform_result.json | jq 'to_entries[] | "| \(.key) | \(.value) |"' >> $GITHUB_STEP_SUMMARY
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
     needs: [ kubeconform ]
