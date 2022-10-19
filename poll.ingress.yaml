@@ -6,7 +6,7 @@ metadata:
   name: kube-ingress-poll
   labels:
     services: "poll"
-specs:
+spec:
   rules:
   - host: "poll.dop.io"
     http:

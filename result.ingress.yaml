@@ -6,7 +6,7 @@ metadata:
   name: kube-ingress-result
   labels:
     services: "result"
-specs:
+spec:
   rules:
   - host: "result.dop.io"
     http:
