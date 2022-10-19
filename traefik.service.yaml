@@ -1,6 +1,38 @@
 # ./traefik.service.yaml
+
+#apiVersion: v1
+#kind: Pod
+#metadata:
+#  name: "nodeport-test"
+#  labels:
+#    app: python
+#spec:
+#  containers:
+#  - name: app
+#    image: python:latest
+#    command: ["python", "-m", "http.server", "8080"]
+#    ports:
+#      - containerPort: 8080
+#---
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: "nodeport-test"
+#spec:
+#  ports:
+#  - port: 8080
+#    protocol: TCP
+#    targetPort: 8080
+#    nodePort: 8080
+#  selector:
+#    app: python
+#  type: NodePort
+
 apiVersion: v1
 kind: Service
 metadata:
   namespace: default
   name: kube-service-traefik
+specs:
+  selector:
+    app: traefik
