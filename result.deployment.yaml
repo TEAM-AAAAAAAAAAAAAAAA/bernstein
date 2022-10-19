@@ -16,12 +16,12 @@ spec:
       labels:
         services: "result"
     spec:
-      limits:
-      - max:
-        memory: 128M
       containers:
       - name: "t-dop-600-result-1"
         image: "epitechcontent/t-dop-600-result:k8s"
+        resources:
+          limits:
+            memory: 128M
       ports:
         - containerPort: 80
       env:

@@ -3,8 +3,8 @@ kind: Deployment
 metadata:
   namespace: default
   name: kube-deploy-poll
-labels:
-    services: "poll"
+  labels:
+      services: "poll"
 spec:
   replicas: 2
   selector:
@@ -20,7 +20,6 @@ spec:
         image: "epitechcontent/t-dop-600-poll:k8s"
         resources:
           limits:
-          - max:
             memory: 128M
         env:
         - name: "REDIS_HOST"

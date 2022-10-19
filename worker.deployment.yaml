@@ -4,8 +4,8 @@ kind: Deployment
 metadata:
   namespace: default
   name: kube-deploy-worker
-labels:
-  services: "worker"
+  labels:
+    services: "worker"
 spec:
   selector:
     matchLabels:
@@ -20,7 +20,6 @@ spec:
         image: "epitechcontent/t-dop-600-worker:k8s"
         resources:
           limits:
-          - max:
             memory: 256M
         env:
         - name: "REDIS_HOST"
