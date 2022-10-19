@@ -6,6 +6,8 @@ metadata:
     databases: "postgresql"
 spec:
   volumeMode: Filesystem
+  capacity:
+    storage: 5G
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
@@ -21,6 +23,8 @@ metadata:
     databases: "postgresql"
 spec:
   volumeMode: Filesystem
+  capacity:
+    storage: 5G
   storageClassName: ""
   accessModes:
     - ReadWriteOnce
@@ -74,6 +78,6 @@ spec:
             secretKeyRef:
               key: "POSTGRES_PASSWORD"
               name: "kube-secret-postgres"
-      ports:
-        - containerPort: 5432
-  restartPolicy: Always
+        ports:
+          - containerPort: 5432
+        restartPolicy: Always
