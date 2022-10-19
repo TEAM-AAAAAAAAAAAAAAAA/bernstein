@@ -23,8 +23,9 @@ metadata:
     databases: "postgresql"
 spec:
   volumeMode: Filesystem
-  capacity:
-    storage: 5G
+  resources:
+    requests:
+      storage: 5G
   storageClassName: ""
   accessModes:
     - ReadWriteOnce
