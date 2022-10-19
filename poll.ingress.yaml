@@ -4,3 +4,16 @@ kind: Ingress
 metadata:
   namespace: default
   name: kube-ingress-poll
+  labels:
+    services: "poll"
+specs:
+  rules:
+  - host: "poll.dop.io"
+    http:
+      paths:
+       - path: /
+         backend:
+          service:
+            name: kube-service-poll
+            port:
+              number: 80

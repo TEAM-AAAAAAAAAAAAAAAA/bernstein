@@ -4,3 +4,16 @@ kind: Ingress
 metadata:
   namespace: default
   name: kube-ingress-result
+  labels:
+    services: "result"
+specs:
+  rules:
+  - host: "result.dop.io"
+    http:
+      paths:
+       - path: /
+         backend:
+          service:
+            name: kube-service-result
+            port:
+              number: 80
