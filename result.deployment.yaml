@@ -16,6 +16,16 @@ spec:
       labels:
         services: "result"
     spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: services
+                    operator: In
+                    values:
+                      - result
+              topologyKey: kubernetes.io/hostname
       restartPolicy: Always
       containers:
       - name: "t-dop-600-result-1"

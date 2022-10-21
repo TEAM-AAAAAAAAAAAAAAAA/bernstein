@@ -30,3 +30,13 @@ spec:
               name: "kube-config-poll"
         ports:
           - containerPort: 80
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: services
+                    operator: In
+                    values:
+                      - poll
+              topologyKey: kubernetes.io/hostname
