@@ -4,3 +4,29 @@ kind: PersistentVolume
 metadata:
   namespace: default
   name: kube-volume-postgres
+  labels:
+    type: local
+    app: postgres
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 3Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /var/lib/postgresql/data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kube-volumeclaim-postgres
+  labels:
+    app: postgres
+spec:
+  storageClassName: manual
+  resources:
+    requests:
+      storage: 3Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
