@@ -8,9 +8,9 @@ command_found() {
 if command_found kubectl; then
     kubectl=kubectl
 elif command_found minikube; then
-    kubectl="minikube kubectl -- "
+    kubectl="minikube kubectl --"
 elif [ -x ./minikube ]; then
-    kubectl=./minikube
+    kubectl="./minikube kubectl --"
 else
     echo "kubectl: command not found"
     exit 1
@@ -43,7 +43,7 @@ $kubectl apply -f poll.deployment.yaml \
 -f result.ingress.yaml
 # $kubectl apply -f poll.deployment.yaml -f worker.deployment.yaml -f result.deployment.yaml -f poll.service.yaml -f result.service.yaml -f poll.ingress.yaml -f result.ingress.yaml
 
-echo "[$(date)] kubectl: apply trafik conf"
+echo "[$(date)] kubectl: apply traefik conf"
 $kubectl apply -f traefik.rbac.yaml \
 -f traefik.deployment.yaml \
 -f traefik.service.yaml
