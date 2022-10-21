@@ -5,9 +5,10 @@ metadata:
   namespace: default
   name: kube-volume-postgres
   labels:
-    databases: postgres
+    type: local
+    app: postgres
 spec:
-  storageClassName: ""
+  storageClassName: manual
   capacity:
     storage: 3Gi
   accessModes:
@@ -20,8 +21,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: kube-volumeclaim-postgres
   labels:
-    databases: postgres
+    app: postgres
 spec:
+  storageClassName: manual
   resources:
     requests:
       storage: 3Gi
