@@ -6,8 +6,6 @@ on:
   push:
     branches:
       - main
-      - actions/create-gke-deployment-action
-      - actions/create-action-summary
   workflow_dispatch:
 
 env:
@@ -49,43 +47,44 @@ jobs:
           echo "| summary | value |" >> $GITHUB_STEP_SUMMARY
           echo "|----------|----------|" >> $GITHUB_STEP_SUMMARY
           jq '.summary' ./kubeconform_result.json | jq 'to_entries[] | "| \(.key) | \(.value) |"' >> $GITHUB_STEP_SUMMARY
-  setup-build-publish-deploy:
-    name: Setup, Build, Publish, and Deploy
-    needs: [ kubeconform ]
-    runs-on: ubuntu-latest
-    environment: production
+
+  #setup-build-publish-deploy:
+  #  name: Setup, Build, Publish, and Deploy
+  #  needs: [ kubeconform ]
+  #  runs-on: ubuntu-latest
+  #  environment: production
 
     # Checkout repo
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+    #steps:
+    #- name: Checkout
+    #  uses: actions/checkout@v3
 
     # Setup gcloud CLI
-    - uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
-      with:
-        service_account_key: ${{ secrets.GKE_SA_KEY }}
-        project_id: ${{ secrets.PROJECT_ID }}
+    #- uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
+    #  with:
+    #    service_account_key: ${{ secrets.GKE_SA_KEY }}
+    #    project_id: ${{ secrets.PROJECT_ID }}
 
     # Configure Docker to use the gcloud command-line tool as a credential
     # helper for authentication
-    - run: |-
-        gcloud --quiet auth configure-docker
+    #- run: |-
+    #    gcloud --quiet auth configure-docker
 
     # Get the GKE credentials so we can deploy to the cluster
-    - uses: google-github-actions/get-gke-credentials@fb08709ba27618c31c09e014e1d8364b02e5042e
-      with:
-        cluster_name: ${{ env.GKE_CLUSTER }}
-        location: ${{ env.GKE_ZONE }}
-        credentials: ${{ secrets.GKE_SA_KEY }}
-        use_auth_provider: true
-    - run: |-
-        gcloud --quiet auth configure-docker
+    #- uses: google-github-actions/get-gke-credentials@fb08709ba27618c31c09e014e1d8364b02e5042e
+    #  with:
+    #    cluster_name: ${{ env.GKE_CLUSTER }}
+    #    location: ${{ env.GKE_ZONE }}
+    #    credentials: ${{ secrets.GKE_SA_KEY }}
+    #    use_auth_provider: true
+    #- run: |-
+    #    gcloud --quiet auth configure-docker
 
     # List container clusters (debug)
-    - name: Get infos
-      shell: bash
-      run: |
-        gcloud container clusters list
+    #- name: Get infos
+    #  shell: bash
+    #  run: |
+    #    gcloud container clusters list
 
     #- name: Display kubectl config
     #  run: |
@@ -95,13 +94,13 @@ jobs:
     #  run: |
     #    gcloud compute project-info describe --project ${{ secrets.PROJECT_ID }}
 
-    - name: Deploy using script
-      working-directory: scripts
-      run: |
-        # gcloud container clusters get-credentials ${{ env.GKE_CLUSTER }} --region ${{ env.GKE_ZONE }}
-        # gcloud auth application-default login
-        # kubectl config use-context ${{ env.GKE_CLUSTER }}
-        bash bernstein-deploy.sh
+    #- name: Deploy using script
+    #  working-directory: scripts
+    #  run: |
+    #    # gcloud container clusters get-credentials ${{ env.GKE_CLUSTER }} --region ${{ env.GKE_ZONE }}
+    #    # gcloud auth application-default login
+    #    # kubectl config use-context ${{ env.GKE_CLUSTER }}
+    #    bash bernstein-deploy.sh
 
     # Build the Docker image
     #- name: Build
