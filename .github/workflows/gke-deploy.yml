@@ -10,10 +10,11 @@ on:
 
 env:
   PROJECT_ID: ${{ secrets.PROJECT_ID }}
-  GKE_CLUSTER: autopilot-cluster-1
-  GKE_ZONE: europe-west1
+  GKE_CLUSTER: cluster-1
+  GKE_ZONE: europe-southwest1-a
   DEPLOYMENT_NAME: bernstein-deploy
   IMAGE: static-site
+  CI: true
 
 jobs:
   kubeconform:
