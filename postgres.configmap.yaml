@@ -5,7 +5,7 @@ metadata:
   namespace: default
   name: kube-config-postgres
   labels:
-    feature: "databases"
+    databases: postgres
 data:
   POSTGRES_HOST: kube-service-postgres
   POSTGRES_PORT: "5432"

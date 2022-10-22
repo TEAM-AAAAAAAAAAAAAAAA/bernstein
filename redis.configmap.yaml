@@ -2,9 +2,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: "kube-config-poll"
-  namespace: "default"
+  name: kube-config-redis
+  namespace: default
   labels:
-    services: "poll"
+    databases: redis
 data:
   REDIS_HOST: kube-service-redis
