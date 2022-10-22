@@ -22,31 +22,36 @@ spec:
       containers:
       - name: "postgres-1"
         image: "postgres:12"
-        env:
-        - name: "POSTGRES_HOST"
-          valueFrom:
-            configMapKeyRef:
-              key: "POSTGRES_HOST"
-              name: "kube-config-postgres"
-        - name: "POSTGRES_PORT"
-          valueFrom:
-            configMapKeyRef:
-              key: "POSTGRES_PORT"
-              name: "kube-config-postgres"
-        - name: "POSTGRES_DB"
-          valueFrom:
-            configMapKeyRef:
-              key: "POSTGRES_DB"
-              name: "kube-config-postgres"
-        - name: "POSTGRES_USER"
-          valueFrom:
-            secretKeyRef:
-              key: "POSTGRES_USER"
-              name: "kube-secret-postgres"
-        - name: "POSTGRES_PASSWORD"
-          valueFrom:
-            secretKeyRef:
-              key: "POSTGRES_PASSWORD"
-              name: "kube-secret-postgres"
+        envFrom:
+          - configMapRef:
+              name: kube-config-postgres
+          - secretRef:
+              name: kube-secret-postgres
+        # env:
+        # - name: "POSTGRES_HOST"
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       key: "POSTGRES_HOST"
+        #       name: "kube-config-postgres"
+        # - name: "POSTGRES_PORT"
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       key: "POSTGRES_PORT"
+        #       name: "kube-config-postgres"
+        # - name: "POSTGRES_DB"
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       key: "POSTGRES_DB"
+        #       name: "kube-config-postgres"
+        # - name: "POSTGRES_USER"
+        #   valueFrom:
+        #     secretKeyRef:
+        #       key: "POSTGRES_USER"
+        #       name: "kube-secret-postgres"
+        # - name: "POSTGRES_PASSWORD"
+        #   valueFrom:
+        #     secretKeyRef:
+        #       key: "POSTGRES_PASSWORD"
+        #       name: "kube-secret-postgres"
         ports:
           - containerPort: 5432
