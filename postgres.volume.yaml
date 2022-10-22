@@ -1,32 +1,33 @@
-# ./postgres.volume.yaml
 apiVersion: v1
 kind: PersistentVolume
 metadata:
+  name: kube-persistvol-postgres
   namespace: default
-  name: kube-volume-postgres
   labels:
-    type: local
-    app: postgres
+    databases: "postgresql"
 spec:
-  storageClassName: manual
+  volumeMode: Filesystem
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   accessModes:
     - ReadWriteOnce
+  # persistentVolumeReclaimPolicy: Retain
+  storageClassName: manual
   hostPath:
     path: /var/lib/postgresql/data
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: kube-volumeclaim-postgres
+  name: kube-persistvolclaim-postgres
+  namespace: default
   labels:
-    app: postgres
+    databases: "postgresql"
 spec:
-  storageClassName: manual
+  volumeMode: Filesystem
   resources:
     requests:
-      storage: 3Gi
-  volumeMode: Filesystem
+      storage: 5Gi
+  storageClassName: ""
   accessModes:
     - ReadWriteOnce
