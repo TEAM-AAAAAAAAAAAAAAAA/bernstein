@@ -25,6 +25,8 @@ spec:
         envFrom:
           - configMapRef:
               name: kube-config-postgres
+          - secretRef:
+              name: kube-secret-postgres
         # env:
         # - name: "POSTGRES_HOST"
         #   valueFrom:

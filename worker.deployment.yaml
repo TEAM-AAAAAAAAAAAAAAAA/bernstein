@@ -27,6 +27,8 @@ spec:
               name: kube-config-redis
           - configMapRef:
               name: kube-config-postgres
+          - secretRef:
+              name: kube-secret-postgres
         # env:
         # - name: "REDIS_HOST"
         #   valueFrom:
