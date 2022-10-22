@@ -15,16 +15,20 @@ kind: DaemonSet
 metadata:
   namespace: kube-system
   name: kube-daemon-cadvisor
+  annotations:
+    kubernetes.io/pod: "docker/default"
 spec:
   selector:
     matchLabels:
-      feature: "monitoring"
+      feature: kube-daemon-cadvisor
   template:
     metadata:
+      name: cadvisor
       labels:
-        feature: "monitoring"
+        feature: kube-daemon-cadvisor
     spec:
       restartPolicy: Always
+      serviceAccountName: cadvisor
       containers:
       - name: "cadvisor"
         image: "google/cadvisor:latest"
@@ -53,21 +57,21 @@ spec:
         - name: disk
           mountPath: /dev/disk
           readOnly: true
-#      automountServiceAccountToken: false
-#      terminationGracePeriodSeconds: 30
-#      volumes:
-#      - name: rootfs
-#        hostPath:
-#          path: /
-#      - name: var-run
-#        hostPath:
-#          path: /var/run
-#      - name: sys
-#        hostPath:
-#          path: /sys
-#      - name: docker
-#        hostPath:
-#          path: /var/lib/docker
-#      - name: disk
-#        hostPath:
-#          path: /dev/disk
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: rootfs
+        hostPath:
+          path: /
+      - name: var-run
+        hostPath:
+          path: /var/run
+      - name: sys
+        hostPath:
+          path: /sys
+      - name: docker
+        hostPath:
+          path: /var/lib/docker
+      - name: disk
+        hostPath:
+          path: /dev/disk
