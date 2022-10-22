@@ -1,6 +1,55 @@
 # ./traefik.deployment.yaml
-apiVersion: apps/v1
-kind: Deployment
+
+# https://doc.traefik.io/traefik/v1.7/user-guide/kubernetes/#deploy-traefik-using-a-deployment-or-daemonset
+
+apiVersion: v1
+kind: ServiceAccount
 metadata:
+  name: kube-serviceacc-traefik
   namespace: kube-public
-  name: kube-deploy-traefik
+
+---
+
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: kube-serviceacc-traefik
+  namespace: kube-public
+  labels:
+    k8s-app: traefik
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      k8s-app: traefik
+  template:
+    metadata:
+      labels:
+        k8s-app: traefik
+        name: traefik-ingress-lb
+    spec:
+      terminationGracePeriodSeconds: 60
+      restartPolicy: Always
+      serviceAccountName: kube-serviceacc-traefik
+      containers:
+        - name: traefik
+          image: traefik:2.7
+          ports:
+            - name: http
+              containerPort: 80
+            - name: admin
+              containerPort: 8080
+          args:
+          - --api
+          - --kubernetes
+          - --logLevel=INFO
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: k8a-app
+                operator: In
+                values:
+                - traefik
+            topologyKey: kubernetes.io/hostname
