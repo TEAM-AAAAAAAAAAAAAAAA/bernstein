@@ -47,9 +47,10 @@ spec:
         feature: "databases"
     spec:
       volumes:
-      - name: postgresql_volume
+      - name: postgresql-volume
         hostPath:
           path: /var/lib/postgresql/data
+      restartPolicy: Always
       containers:
       - name: "postgres-1"
         image: "postgres:12"
@@ -81,4 +82,3 @@ spec:
               name: "kube-secret-postgres"
         ports:
           - containerPort: 5432
-        restartPolicy: Always
