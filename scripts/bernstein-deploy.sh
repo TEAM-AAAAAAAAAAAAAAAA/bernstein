@@ -3,7 +3,7 @@
 # minikube start -p bernstein
 # minikube kubectl config use-context bernstein
 
-if [ "$EUID" -ne 0 && -z "${CI}" ]; then
+if [ "$EUID" -ne 0 && -z "$CI" ]; then
     echo "please run this script as root"
     exit 1
 fi
