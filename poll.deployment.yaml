@@ -22,12 +22,15 @@ spec:
         resources:
           limits:
             memory: 128M
-        env:
-        - name: "REDIS_HOST"
-          valueFrom:
-            configMapKeyRef:
-              key: "REDIS_HOST"
-              name: "kube-config-poll"
+        envFrom:
+          - configMapRef:
+              name: kube-config-redis
+        # env:
+        # - name: "REDIS_HOST"
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       key: "REDIS_HOST"
+        #       name: "kube-config-poll"
         ports:
           - containerPort: 80
       affinity:
