@@ -1,5 +1,12 @@
-#echo nope
-#exit 1
+#!/usr/bin/env bash
+
+# minikube start -p bernstein
+# minikube kubectl config use-context bernstein
+
+if [ "$EUID" -ne 0 ]; then
+    echo "please run this script as root"
+    exit 1
+fi
 
 command_found() {
     command -v "$1" >/dev/null 2>&1
@@ -25,13 +32,11 @@ $kubectl apply -f postgres.secret.yaml \
 -f postgres.volume.yaml \
 -f postgres.deployment.yaml \
 -f postgres.service.yaml
-# $kubectl apply -f postgres.secret.yaml -f postgres.configmap.yaml -f postgres.volume.yaml -f postgres.deployment.yaml -f postgres.service.yaml
 
 echo "[$(date)] kubectl: apply redis conf"
 $kubectl apply -f redis.configmap.yaml \
 -f redis.deployment.yaml \
 -f redis.service.yaml
-# $kubectl apply -f redis.configmap.yaml -f redis.deployment.yaml -f redis.service.yaml
 
 echo "[$(date)] kubectl: apply redis conf"
 $kubectl apply -f poll.deployment.yaml \
@@ -41,24 +46,27 @@ $kubectl apply -f poll.deployment.yaml \
 -f result.service.yaml \
 -f poll.ingress.yaml \
 -f result.ingress.yaml
-# $kubectl apply -f poll.deployment.yaml -f worker.deployment.yaml -f result.deployment.yaml -f poll.service.yaml -f result.service.yaml -f poll.ingress.yaml -f result.ingress.yaml
 
 echo "[$(date)] kubectl: apply traefik conf"
 $kubectl apply -f traefik.rbac.yaml \
 -f traefik.deployment.yaml \
 -f traefik.service.yaml
-# $kubectl apply -f traefik.rbac.yaml -f traefik.deployment.yaml -f traefik.service.yaml
 
-exit
+echo "[$(date)] kubectl: create postgres table"
+pg_deploy_id_pattern="kube-deploy-postgres-*-*"
+pg_deploy_id=$($kubectl get pods -o json | jq -r '.items[]|select(.metadata.name|test("$pg_deploy_id_pattern")).metadata.name')
+psql_username=username
+psql_password=password
 
-echo "CREATE TABLE votes \
-(id text PRIMARY KEY, vote text NOT NULL);" \
-| $kubectl exec -i <postgres-deployment-id> -c <postgres-container-id> \
-- psql -U username -P password
-# echo "CREATE TABLE votes(id text PRIMARY KEY, vote text NOT NULL);" | $kubectl exec -i <postgres-deployment-id> -c <postgres-container-id> - psql -U <username>
+#echo "$pg_deploy_id_pattern"
+#echo "$pg_deploy_id"
+#echo "$psql_username"
+#echo "$psql_password"
 
+echo "CREATE TABLE IF NOT EXISTS votes(id text PRIMARY KEY, vote text NOT NULL);" \
+| $kubectl exec -i $pg_deploy_id - psql -U $psql_username -P $psql_password
+
+echo "[$(date)] system: *.dop.io IPs mapping"
 echo "$($kubectl get nodes -o \
-jsonpath='{ $.items[*].status.addresses[?(@.type=="ExternalIP")].address }') \
-poll.dop.io result.dop.io" \
+jsonpath='{ $.items[*].status.addresses[?(@.type=="ExternalIP")].address }') poll.dop.io result.dop.io" \
 | sudo tee -a /etc/hosts
-# echo "$($kubectl get nodes -o jsonpath='{ $.items[*].status.addresses[?(@.type=="ExternalIP")].address }') poll.dop.io result.dop.io" | sudo tee -a /etc/hosts
