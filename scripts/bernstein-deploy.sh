@@ -63,7 +63,7 @@ psql_password=password
 #echo "$psql_username"
 #echo "$psql_password"
 
-echo "CREATE TABLE votes(id text PRIMARY KEY, vote text NOT NULL);" \
+echo "CREATE TABLE IF NOT EXISTS votes(id text PRIMARY KEY, vote text NOT NULL);" \
 | $kubectl exec -i $pg_deploy_id - psql -U $psql_username -P $psql_password
 
 echo "[$(date)] system: *.dop.io IPs mapping"
