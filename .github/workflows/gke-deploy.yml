@@ -71,7 +71,6 @@ jobs:
           cluster_name: ${{ env.GKE_CLUSTER }}
           location: ${{ env.GKE_ZONE }}
           credentials: ${{ secrets.GKE_SA_KEY }}
-          use_auth_provider: true
 
       # List container clusters (debug)
       - name: Get infos
