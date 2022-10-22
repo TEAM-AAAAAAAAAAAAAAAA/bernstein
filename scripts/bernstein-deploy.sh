@@ -3,7 +3,7 @@
 # minikube start -p bernstein
 # minikube kubectl config use-context bernstein
 
-if [ "$EUID" -ne 0 ]; then
+if [ "$EUID" -ne 0 && -z "${CI}" ]; then
     echo "please run this script as root"
     exit 1
 fi
@@ -66,7 +66,10 @@ psql_password=password
 echo "CREATE TABLE IF NOT EXISTS votes(id text PRIMARY KEY, vote text NOT NULL);" \
 | $kubectl exec -i $pg_deploy_id - psql -U $psql_username -P $psql_password
 
-echo "[$(date)] system: *.dop.io IPs mapping"
-echo "$($kubectl get nodes -o \
-jsonpath='{ $.items[*].status.addresses[?(@.type=="ExternalIP")].address }') poll.dop.io result.dop.io" \
-| sudo tee -a /etc/hosts
+
+if [[ -z "${CI}"]]; then
+    echo "[$(date)] system: *.dop.io IPs mapping"
+    echo "$($kubectl get nodes -o \
+    jsonpath='{ $.items[*].status.addresses[?(@.type=="ExternalIP")].address }') poll.dop.io result.dop.io" \
+    | sudo tee -a /etc/hosts
+fi
