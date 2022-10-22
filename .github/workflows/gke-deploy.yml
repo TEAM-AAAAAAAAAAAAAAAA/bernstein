@@ -56,8 +56,9 @@ jobs:
 
     # Checkout repo
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
 
       # Setup gcloud CLI
       - uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
@@ -87,7 +88,6 @@ jobs:
           gcloud compute project-info describe --project ${{ secrets.PROJECT_ID }}
 
       - name: Deploy using script
-        working-directory: scripts
         run: |
           # gcloud container clusters get-credentials ${{ env.GKE_CLUSTER }} --region ${{ env.GKE_ZONE }}
           # gcloud auth application-default login
