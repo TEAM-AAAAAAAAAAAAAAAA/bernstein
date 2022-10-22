@@ -35,7 +35,7 @@ kind: Service
 metadata:
   namespace: kube-public
   name: kube-service-traefik
-specs:
+spec:
   selector:
     app: traefik
   type: NodePort
