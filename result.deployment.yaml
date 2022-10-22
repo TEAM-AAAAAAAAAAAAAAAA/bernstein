@@ -37,15 +37,7 @@ spec:
           - containerPort: 80
         envFrom:
           - configMapRef:
-              name: "POSTGRES_HOST"
-          - configMapRed:
-              name: "POSTGRES_PORT"
-          - configMapRef:
-              name: "POSTGRES_DB"
-          - configMapRef:
-              name: "POSTGRES_USER"
-          - configMapRef:
-              name: "POSTGRES_PASSWORD"
+              name: kube-config-postgres
         # env:
         # - name: "POSTGRES_HOST"
         #   valueFrom:

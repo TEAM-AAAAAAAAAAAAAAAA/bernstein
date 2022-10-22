@@ -55,15 +55,7 @@ spec:
         image: "postgres:12"
         envFrom:
           - configMapRef:
-              name: "POSTGRES_HOST"
-          - configMapRef:
-              name: "POSTGRES_PORT"
-          - configMapRef:
-              name: "POSTGRES_DB"
-          - configMapRef:
-              name: "POSTGRES_USER"
-          - configMapRef:
-              name: "POSTGRES_PASSWORD"
+              name: kube-config-postgres
         # env:
         # - name: "POSTGRES_HOST"
         #   valueFrom:

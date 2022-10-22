@@ -24,17 +24,9 @@ spec:
             memory: 256M
         envFrom:
           - configMapRef:
-              name: "REDIS_HOST"
+              name: kube-config-redis
           - configMapRef:
-              name: "POSTGRES_HOST"
-          - configMapRef:
-              name: "POSTGRES_PORT"
-          - configMapRef:
-              name: "POSTGRES_DB"
-          - configMapRef:
-              name: "POSTGRES_USER"
-          - configMapRef:
-              name: "POSTGRES_PASSWORD"
+              name: kube-config-postgres
         # env:
         # - name: "REDIS_HOST"
         #   valueFrom:

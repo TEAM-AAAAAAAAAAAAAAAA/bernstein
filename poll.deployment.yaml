@@ -24,7 +24,7 @@ spec:
             memory: 128M
         envFrom:
           - configMapRef:
-              name: "REDIS_HOST"
+              name: kube-config-redis
         # env:
         # - name: "REDIS_HOST"
         #   valueFrom:
