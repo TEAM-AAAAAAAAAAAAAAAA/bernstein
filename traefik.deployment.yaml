@@ -1,4 +1,12 @@
 # ./traefik.deployment.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kube-serviceacc-traefik
+  namespace: kube-public
+  labels:
+      app: traefik
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
