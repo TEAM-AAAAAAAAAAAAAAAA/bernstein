@@ -69,7 +69,7 @@ psql_password=password
 echo version: $(psql --version)
 echo U flag: $(psql --help | grep -w -- -U || true)
 echo "CREATE TABLE IF NOT EXISTS votes(id text PRIMARY KEY, vote text NOT NULL);" \
-| $kubectl exec -i $pg_deploy_id - psql --username $psql_username -P $psql_password
+| $kubectl exec "-i $pg_deploy_id - psql -U $psql_username -P $psql_password"
 
 if [[ -z "${CI}" ]]; then
     echo "[$(date)] system: *.dop.io IPs mapping"
