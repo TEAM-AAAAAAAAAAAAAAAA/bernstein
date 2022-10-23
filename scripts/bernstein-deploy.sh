@@ -23,6 +23,8 @@ else
     exit 1
 fi
 
+kubectl+=" -v=4"
+
 echo "[$(date)] kubectl: apply cadvisor conf"
 $kubectl apply -f cadvisor.daemonset.yaml
 

@@ -13,9 +13,9 @@ roleRef:
   kind: ClusterRole
   name: kube-rbac-traefik
 subjects:
-  - kind: ServiceAccount
-    name: kube-rbac-traefik
-    namespace: default
+- kind: ServiceAccount
+  name: kube-rbac-traefik
+  namespace: kube-public
 
 ---
 
@@ -40,34 +40,31 @@ rules:
       - watch
   - apiGroups:
       - extensions
-      - networking.k8s.io
     resources:
       - ingresses
-      - ingressclasses
     verbs:
       - get
       - list
       - watch
   - apiGroups:
-      - extensions
-      - networking.k8s.io
+    - extensions
     resources:
-      - ingresses/status
+    - ingresses/status
     verbs:
-      - update
-  - apiGroups:
-      - traefik.containo.us
-    resources:
-      - middlewares
-      - middlewaretcps
-      - ingressroutes
-      - traefikservices
-      - ingressroutetcps
-      - ingressrouteudps
-      - tlsoptions
-      - tlsstores
-      - serverstransports
-    verbs:
-      - get
-      - list
-      - watch
+    - update
+#  - apiGroups:
+#      - traefik.containo.us
+#    resources:
+#      - middlewares
+#      - middlewaretcps
+#      - ingressroutes
+#      - traefikservices
+#      - ingressroutetcps
+#      - ingressrouteudps
+#      - tlsoptions
+#      - tlsstores
+#      - serverstransports
+#    verbs:
+#      - get
+#      - list
+#      - watch
