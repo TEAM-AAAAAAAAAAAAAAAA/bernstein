@@ -3,10 +3,10 @@
 # minikube start -p bernstein
 # minikube kubectl config use-context bernstein
 
-if [[ "$EUID" -ne 0 && -z "$CI" ]]; then
-    echo "please run this script as root"
-    exit 1
-fi
+# if [[ "$EUID" -ne 0 && -z "$CI" ]]; then
+#     echo "please run this script as root"
+#     exit 1
+# fi
 
 command_found() {
     command -v "$1" >/dev/null 2>&1
@@ -22,6 +22,7 @@ else
     echo "kubectl: command not found"
     exit 1
 fi
+
 
 echo "[$(date)] kubectl: apply cadvisor conf"
 $kubectl apply -f cadvisor.daemonset.yaml
@@ -64,7 +65,7 @@ psql_password=password
 #echo "$psql_password"
 
 echo "CREATE TABLE IF NOT EXISTS votes(id text PRIMARY KEY, vote text NOT NULL);" \
-| $kubectl exec -i $pg_deploy_id - psql -U $psql_username -P $psql_password
+| $kubectl exec -i $pg_deploy_id - psql --username $psql_username -P $psql_password
 
 
 if [[ -z "${CI}" ]]; then
