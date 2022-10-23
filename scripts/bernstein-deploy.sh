@@ -23,6 +23,7 @@ else
     exit 1
 fi
 
+kubectl+=" -v=4"
 
 echo "[$(date)] kubectl: apply cadvisor conf"
 $kubectl apply -f cadvisor.daemonset.yaml
@@ -64,9 +65,11 @@ psql_password=password
 #echo "$psql_username"
 #echo "$psql_password"
 
+# debug
+echo version: $(psql --version)
+echo U flag: $(psql --help | grep -w -- -U || true)
 echo "CREATE TABLE IF NOT EXISTS votes(id text PRIMARY KEY, vote text NOT NULL);" \
 | $kubectl exec -i $pg_deploy_id - psql --username $psql_username -P $psql_password
-
 
 if [[ -z "${CI}" ]]; then
     echo "[$(date)] system: *.dop.io IPs mapping"
