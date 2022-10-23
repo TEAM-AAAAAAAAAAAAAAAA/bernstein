@@ -26,11 +26,8 @@ spec:
     metadata:
       labels:
         k8s-app: traefik
-        name: traefik-ingress-lb
+        name: traefik-ingress
     spec:
-      terminationGracePeriodSeconds: 60
-      restartPolicy: Always
-      serviceAccountName: kube-serviceacc-traefik
       containers:
         - name: traefik
           image: traefik:2.7
@@ -43,6 +40,9 @@ spec:
           - --api
           - --kubernetes
           - --logLevel=INFO
+      serviceAccountName: kube-serviceacc-traefik
+      terminationGracePeriodSeconds: 60
+      restartPolicy: Always
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -52,4 +52,4 @@ spec:
                 operator: In
                 values:
                 - traefik
-            topologyKey: kubernetes.io/hostname
+            topologyKey: "kubernetes.io/hostname"
